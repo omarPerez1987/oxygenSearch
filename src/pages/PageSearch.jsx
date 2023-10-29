@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Input, Link } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import navStyles from "../../styles/nav/navStyles";
-import inputStyles from "../../styles/nav/inputStyles";
+import { Link } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import "./pageSearch.css";
+import Logo from "../components/logo/Logo.jsx";
+import Searcher from "../components/searcher/Searcher";
 
 const PageSearch = () => {
   const [photos, setPhotos] = useState();
-  console.log(photos);
+  // console.log(photos);
   useEffect(() => {
     fetch(
       "https://api.unsplash.com/photos?per_page=20&client_id=P6cf7q80QyPwwvDvYEP4aYkfXZYdgFzCDwzmXIdBV4Y"
@@ -31,70 +31,47 @@ const PageSearch = () => {
 
   return (
     <>
-      <nav style={navStyles}>
-        <Link
-          href="/"
-          underline="none"
-          color="white"
-          fontWeight={900}
-          fontSize="1.5em"
-        >
-          OXYGENSearch
-        </Link>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            width: "30%",
-            gap: "0.5em",
-          }}
-        >
-          <Input placeholder="Search..." style={inputStyles} />
-          <SearchIcon sx={{ color: "white" }}></SearchIcon>
-        </div>
-        <Link href="my-photos">
-          <PersonIcon
-            sx={{ color: "white", fontSize: "2em", position: "relative" }}
-          />
-          <FavoriteIcon
-            sx={{
-              color: "white",
-              fontSize: "1em",
-              position: "absolute",
-              marginLeft: "-0.5em",
-            }}
-          />
-        </Link>
-      </nav>
-      <section
-        style={{
-          padding: "5em 13.5em",
-          maxWidth: "100%",
-          display: "flex",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          gap: "2em",
-        }}
-      >
-        {photos &&
-          photos.map((item, index) => (
-            <div
-              key={index}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                width: "320px",
-                height: "190px",
+      <nav className="navSearch">
+        <div className="navSearch__container">
+          <Logo />
+
+          <Link href="my-photos" className="nav__my-photos">
+            <PersonIcon
+              sx={{ color: "white", fontSize: "2em", position: "relative" }}
+            />
+            <FavoriteIcon
+              sx={{
+                color: "white",
+                fontSize: "1em",
+                position: "absolute",
+                marginLeft: "-0.5em",
               }}
-            >
-              <img
-                src={item.urls.small}
-                alt={item.description}
-                style={{ objectFit: "cover", width: "100%", height: "100%" }}
-              />
-            </div>
-          ))}
-      </section>
+            />
+          </Link>
+        </div>
+        <div className="navSearch__search">
+          <Searcher placeholder={"Search..."} />
+        </div>
+      </nav>
+
+      <section className="list">
+      {photos &&
+        photos.map((item) => (
+          <div
+            key={item.id}
+            className="list__container"
+            style={{ width:'320px', height:'190px' }}
+          >
+            <img
+              className="list__container__image"
+              src={item.urls.small}
+              alt={item.title}
+            />
+            <FavoriteIcon className="favoriteIcon" />
+          </div>
+        ))}
+    </section>
+      
     </>
   );
 };
