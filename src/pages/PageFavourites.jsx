@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { favoritesData } from "../features/favouritesSlice";
+
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -8,11 +11,34 @@ import "./pageFavourites.css";
 import CardFavourite from "../components/cardfavourite/CardFavourite";
 
 const PageFavourites = () => {
-  const [age, setAge] = React.useState("");
+  const favoritePhotos = useSelector(favoritesData);
+  const [localStorageData, setLocalStorageData] = useState([]);
+  console.log(localStorageData);
 
+  const [age, setAge] = React.useState("");
   const handleChange = (event) => {
     setAge(event.target.value);
   };
+
+  const saveToLocalStorage = () => {
+    localStorage.setItem("favoritePhotos", JSON.stringify(favoritePhotos));
+  };
+
+  const readFromLocalStorage = () => {
+    const storedData = localStorage.getItem("favoritePhotos");
+    if (storedData) {
+      setLocalStorageData(JSON.parse(storedData));
+    }
+  };
+
+  useEffect(() => {
+    saveToLocalStorage();
+  }, [favoritePhotos]);
+
+  useEffect(() => {
+    readFromLocalStorage();
+  }, []);
+
   return (
     <>
       <nav className="navFavourites">
@@ -21,7 +47,7 @@ const PageFavourites = () => {
 
           <FormControl
             className="navFavourites__container__order"
-            sx={{ minWidth: 160, backgroundColor: "white"}}
+            sx={{ minWidth: 160, backgroundColor: "white" }}
           >
             <Select
               value={age}
@@ -43,12 +69,20 @@ const PageFavourites = () => {
           <Searcher placeholder={"Search..."} />
         </div>
       </nav>
-      
+
       <section className="container-section">
-        <CardFavourite />
-        <CardFavourite />
-        <CardFavourite />
-        <CardFavourite />
+        {localStorageData.length > 0 ? (
+          localStorageData.map((data) => (
+            <CardFavourite
+              data={data}
+              // onEdit={editImageDescription}
+              // onDownload={downloadImage}
+              // onDelete={removeFavoriteImage}
+            />
+          ))
+        ) : (
+          <h1>No has guardado ninguna foto</h1>
+        )}
       </section>
     </>
   );

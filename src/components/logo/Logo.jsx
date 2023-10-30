@@ -1,11 +1,11 @@
 import React from "react";
-import { Link } from "@mui/material";
 import './logo.css'
+import { Link } from "react-router-dom";
 
 const Logo = () => {
   return (
-    <Link href="/">
-      <h1 className="logo">OXYGENSearch</h1>
+    <Link to="/" className="logo">
+      OXYGENSearch
     </Link>
   );
 };
