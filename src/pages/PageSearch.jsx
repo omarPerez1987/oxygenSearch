@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPhotosThunk } from "../features/searchThunk";
 import {
@@ -26,7 +26,18 @@ const PageSearch = () => {
   }, [dispatch]);
 
   const addToMyPhotos = (item) => {
-    dispatch(addFavorite(item));
+    const shortData = {
+      id: item.id,
+      description: item.description,
+      smallImage: item.urls.small,
+      height: item.height,
+      width: item.width,
+      likes: item.likes,
+      date: item.created_at,
+      fullImage: item.urls.full,
+    };
+    dispatch(addFavorite(shortData));
+    alert('✅ Añadido con exito')
   };
 
   return (

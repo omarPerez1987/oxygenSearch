@@ -5,39 +5,23 @@ import { favoritesData } from "../features/favouritesSlice";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Input } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import Logo from "../components/logo/Logo";
-import Searcher from "../components/searcher/Searcher";
 import "./pageFavourites.css";
 import CardFavourite from "../components/cardfavourite/CardFavourite";
 
 const PageFavourites = () => {
   const favoritePhotos = useSelector(favoritesData);
-  const [localStorageData, setLocalStorageData] = useState([]);
-  console.log(localStorageData);
 
-  const [age, setAge] = React.useState("");
+  const [age, setAge] = useState("");
   const handleChange = (event) => {
     setAge(event.target.value);
   };
 
-  const saveToLocalStorage = () => {
+  useEffect(() => {
     localStorage.setItem("favoritePhotos", JSON.stringify(favoritePhotos));
-  };
-
-  const readFromLocalStorage = () => {
-    const storedData = localStorage.getItem("favoritePhotos");
-    if (storedData) {
-      setLocalStorageData(JSON.parse(storedData));
-    }
-  };
-
-  useEffect(() => {
-    saveToLocalStorage();
   }, [favoritePhotos]);
-
-  useEffect(() => {
-    readFromLocalStorage();
-  }, []);
 
   return (
     <>
@@ -66,20 +50,29 @@ const PageFavourites = () => {
           </FormControl>
         </div>
         <div className="navFavourites__search">
-          <Searcher placeholder={"Search..."} />
+          <Input
+            placeholder="Search descriptions..."
+            type="text"
+            value={""}
+            // onChange={(e) => setSearchQuery(e.target.value)}
+            sx={{
+              backgroundColor: "white",
+              width: "100%",
+              height: "2em",
+              borderRadius: "0.5em",
+              padding: "0.5em 0.8em",
+            }}
+          />
+          <SearchIcon
+            sx={{ color: "white" }}
+            // onClick={handleSearch}
+          ></SearchIcon>
         </div>
       </nav>
 
       <section className="container-section">
-        {localStorageData.length > 0 ? (
-          localStorageData.map((data) => (
-            <CardFavourite
-              data={data}
-              // onEdit={editImageDescription}
-              // onDownload={downloadImage}
-              // onDelete={removeFavoriteImage}
-            />
-          ))
+        {favoritePhotos.length > 0 ? (
+          favoritePhotos.map((data) => <CardFavourite data={data} />)
         ) : (
           <h1>No has guardado ninguna foto</h1>
         )}
