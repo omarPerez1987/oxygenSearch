@@ -8,7 +8,7 @@ const favoritesSlice = createSlice({
       return state.concat(action.payload);
     },
     removeFavorite: (state, action) => {
-      return state.filter((photo) => photo.id !== action.payload);
+      return state.filter((photo) => photo.uniqueId !== action.payload);
     },
     updateDescription: (state, action) => {
       const index = state.findIndex((data) => data.id === action.payload.id);

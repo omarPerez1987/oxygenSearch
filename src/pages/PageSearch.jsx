@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPhotosThunk } from "../features/searchThunk";
 import {
@@ -7,7 +7,7 @@ import {
   fetchPhotosError,
 } from "../features/searchSlice";
 import { addFavorite } from "../features/favouritesSlice";
-
+import { v4 as uuidv4 } from 'uuid';
 import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -28,7 +28,8 @@ const PageSearch = () => {
   const addToMyPhotos = (item) => {
     const shortData = {
       id: item.id,
-      description: item.description,
+      uniqueId: uuidv4(),
+      description: (item.description ? item.description.slice(0, 16) : "No title"),
       smallImage: item.urls.small,
       height: item.height,
       width: item.width,

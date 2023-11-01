@@ -19,6 +19,49 @@
   gap: 0.5em;
 }
 
+.list {
+  padding: 5em 0em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  gap: 3.4em;
+}
+
+.list__container {
+  width: 320px;
+  height: 190px;
+  position: relative;
+}
+
+.list__container__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.favoriteIcon {
+  position: absolute;
+  color: white;
+  right: 12px;
+  top: 14px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.favoriteIconColorRed {
+  position: absolute;
+  color: red;
+  right: 12px;
+  top: 14px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.favoriteIcon:hover {
+  color: red;
+}
+
 
 @media screen and (max-width: 768px) {
   .navSearch {

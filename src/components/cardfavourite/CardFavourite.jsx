@@ -39,7 +39,6 @@ const CardFavourite = ({ data }) => {
     dispatch(
       updateDescription({ id: data.id, newDescription: newDescription })
     );
-
     closeModal();
   };
 
@@ -64,7 +63,7 @@ const CardFavourite = ({ data }) => {
       <CardMedia sx={{ height: 324 }} image={data.smallImage} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {currentDescription.title}
+          {data.description}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           width: {currentDescription.width}px
@@ -89,7 +88,7 @@ const CardFavourite = ({ data }) => {
         >
           <DownloadIcon />
         </Button>
-        <Button size="small" onClick={() => dispatch(removeFavorite(data.id))}>
+        <Button size="small" onClick={() => dispatch(removeFavorite(data.uniqueId))}>
           <DeleteIcon />
         </Button>
       </CardActions>

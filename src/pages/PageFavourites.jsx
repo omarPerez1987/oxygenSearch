@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { favoritesData } from "../features/favouritesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, favoritesData } from "../features/favouritesSlice";
 
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -12,15 +12,44 @@ import "./pageFavourites.css";
 import CardFavourite from "../components/cardfavourite/CardFavourite";
 
 const PageFavourites = () => {
+  const dispatch = useDispatch();
   const favoritePhotos = useSelector(favoritesData);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortedPhotos, setSortedPhotos] = useState([]);
 
-  const [age, setAge] = useState("");
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const loadLocalStorage = () => {
+    const localData = localStorage.getItem("favoritePhotos");
+    return localData ? JSON.parse(localData) : [];
+  };
+
+  useEffect(() => {
+    const localFavorites = loadLocalStorage();
+    if (favoritePhotos.length === 0) {
+      dispatch(addFavorite(localFavorites));
+    }
+  }, [dispatch]);
+
+  const handleSort = (sortBy) => {
+    if (sortBy === "likes") {
+      const sorted = [...favoritePhotos].sort((a, b) => b.likes - a.likes);
+      setSortedPhotos(sorted);
+    } else if (sortBy === "width") {
+      const sorted = [...favoritePhotos].sort((a, b) => a.width - b.width);
+      setSortedPhotos(sorted);
+    } else if (sortBy === "height") {
+      const sorted = [...favoritePhotos].sort((a, b) => a.height - b.height);
+      setSortedPhotos(sorted);
+    } else if (sortBy === "date") {
+      const sorted = [...favoritePhotos].sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
+      setSortedPhotos(sorted);
+    }
   };
 
   useEffect(() => {
     localStorage.setItem("favoritePhotos", JSON.stringify(favoritePhotos));
+    setSortedPhotos([...favoritePhotos]);
   }, [favoritePhotos]);
 
   return (
@@ -34,18 +63,16 @@ const PageFavourites = () => {
             sx={{ minWidth: 160, backgroundColor: "white" }}
           >
             <Select
-              value={age}
-              onChange={handleChange}
+              value={"ORDER BY"}
+              onChange={(e) => handleSort(e.target.value)}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
             >
-              <MenuItem value="">
-                <em>ORDER BY</em>
-              </MenuItem>
-              <MenuItem value={10}>width</MenuItem>
-              <MenuItem value={20}>height</MenuItem>
-              <MenuItem value={30}>likes</MenuItem>
-              <MenuItem value={30}>date</MenuItem>
+              <MenuItem value="ORDER BY">ORDER BY</MenuItem>
+              <MenuItem value="width">width</MenuItem>
+              <MenuItem value="height">height</MenuItem>
+              <MenuItem value="likes">likes</MenuItem>
+              <MenuItem value="date">date</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -53,8 +80,8 @@ const PageFavourites = () => {
           <Input
             placeholder="Search descriptions..."
             type="text"
-            value={""}
-            // onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             sx={{
               backgroundColor: "white",
               width: "100%",
@@ -63,16 +90,27 @@ const PageFavourites = () => {
               padding: "0.5em 0.8em",
             }}
           />
-          <SearchIcon
-            sx={{ color: "white" }}
-            // onClick={handleSearch}
-          ></SearchIcon>
+          <SearchIcon sx={{ color: "white" }}></SearchIcon>
         </div>
       </nav>
 
       <section className="container-section">
-        {favoritePhotos.length > 0 ? (
-          favoritePhotos.map((data) => <CardFavourite data={data} />)
+        {sortedPhotos.length > 0 ? (
+          sortedPhotos
+            .filter((photo) =>
+              photo.description
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase())
+            )
+            .map((data) => <CardFavourite data={data} key={data.uniqueId} />)
+        ) : favoritePhotos.length > 0 ? (
+          favoritePhotos
+            .filter((photo) =>
+              photo.description
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase())
+            )
+            .map((data) => <CardFavourite data={data} key={data.uniqueId} />)
         ) : (
           <h1>No has guardado ninguna foto</h1>
         )}
