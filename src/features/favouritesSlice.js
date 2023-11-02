@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from 'react-toastify';
 
 const favoritesSlice = createSlice({
   name: "favorites",
@@ -8,7 +9,10 @@ const favoritesSlice = createSlice({
       return state.concat(action.payload);
     },
     removeFavorite: (state, action) => {
-      return state.filter((photo) => photo.uniqueId !== action.payload);
+      return state.filter(
+        (photo) => photo.uniqueId !== action.payload,
+        toast.error("Foto eliminada de favoritos")
+      );
     },
     updateDescription: (state, action) => {
       const index = state.findIndex((data) => data.id === action.payload.id);
@@ -29,13 +33,14 @@ const favoritesSlice = createSlice({
         }
 
         state[index] = updatedData;
-        // console.log('dataUpdate después de actualizar:', updatedData);
+        toast.success('Edición guardada con éxito')
       }
     },
   },
 });
 
-export const { addFavorite, removeFavorite, updateDescription } = favoritesSlice.actions;
+export const { addFavorite, removeFavorite, updateDescription } =
+  favoritesSlice.actions;
 export const favoritesData = (state) => state.favorites;
 
 export default favoritesSlice.reducer;

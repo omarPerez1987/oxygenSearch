@@ -33,6 +33,7 @@ const EditModal = ({ open, onClose, onSave, currentDescription }) => {
         <TextField
           sx={{ marginTop: "1em" }}
           label="width"
+          type="number"
           fullWidth
           value={descriptionWidth}
           onChange={(e) => setDescriptionWidth(e.target.value)}
@@ -40,6 +41,7 @@ const EditModal = ({ open, onClose, onSave, currentDescription }) => {
         <TextField
           sx={{ marginTop: "1em" }}
           label="height"
+          type="number"
           fullWidth
           value={descriptionHeight}
           onChange={(e) => setDescriptionHeight(e.target.value)}
@@ -47,6 +49,7 @@ const EditModal = ({ open, onClose, onSave, currentDescription }) => {
         <TextField
           sx={{ marginTop: "1em" }}
           label="likes"
+          type="number"
           fullWidth
           value={descriptionLikes}
           onChange={(e) => setDescriptionLikes(e.target.value)}
@@ -54,6 +57,7 @@ const EditModal = ({ open, onClose, onSave, currentDescription }) => {
         <TextField
           sx={{ marginTop: "1em" }}
           label="date"
+          type="date"
           fullWidth
           value={descriptionDate}
           onChange={(e) => setDescriptionDate(e.target.value)}

@@ -6,17 +6,19 @@ import {
   fetchPhotosStatus,
   fetchPhotosError,
 } from "../features/searchSlice";
-import { addFavorite } from "../features/favouritesSlice";
-import { v4 as uuidv4 } from 'uuid';
+import { addFavorite, favoritesData } from "../features/favouritesSlice";
+import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import "./pageSearch.css";
 import Logo from "../components/logo/Logo.jsx";
 import Searcher from "../components/searcher/Searcher";
+import { toast } from 'react-toastify';
 
 const PageSearch = () => {
   const dispatch = useDispatch();
+  const favoritePhotos = useSelector(favoritesData);
   const photos = useSelector(fetchPhotosData);
   const status = useSelector(fetchPhotosStatus);
   const error = useSelector(fetchPhotosError);
@@ -29,7 +31,9 @@ const PageSearch = () => {
     const shortData = {
       id: item.id,
       uniqueId: uuidv4(),
-      description: (item.description ? item.description.slice(0, 16) : "No title"),
+      description: item.description
+        ? item.description.slice(0, 16)
+        : "No title",
       smallImage: item.urls.small,
       height: item.height,
       width: item.width,
@@ -38,7 +42,11 @@ const PageSearch = () => {
       fullImage: item.urls.full,
     };
     dispatch(addFavorite(shortData));
-    alert('✅ Añadido con exito')
+    toast.success("Foto añadida con exito");
+    localStorage.setItem(
+      "favoritePhotos",
+      JSON.stringify([...favoritePhotos, shortData])
+    );
   };
 
   return (

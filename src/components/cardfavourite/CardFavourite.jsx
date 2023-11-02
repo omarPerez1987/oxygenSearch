@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { toast } from "react-toastify";
 
 const CardFavourite = ({ data }) => {
   const dispatch = useDispatch();
@@ -46,16 +47,26 @@ const CardFavourite = ({ data }) => {
     fetch(urlFull)
       .then((response) => response.blob())
       .then((blob) => {
-        const url = window.URL.createObjectURL(blob);
+        const downloadQuestion = confirm(
+          "¿Quieres iniciar la descarga de la imagen?"
+        );
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${name}.jpg`;
-        a.click();
+        if (downloadQuestion) {
+          const url = window.URL.createObjectURL(blob);
 
-        window.URL.revokeObjectURL(url);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `${name}.jpg`;
+          a.click();
+
+          window.URL.revokeObjectURL(url);
+        } else {
+          toast.warn("Cancelada la descarga");
+        }
       })
-      .catch((error) => alert("Error al obtener la foto de Unsplash:", error));
+      .catch((error) =>
+        toast.error("Error al obtener la foto de Unsplash:", error)
+      );
   };
 
   return (
@@ -88,7 +99,10 @@ const CardFavourite = ({ data }) => {
         >
           <DownloadIcon />
         </Button>
-        <Button size="small" onClick={() => dispatch(removeFavorite(data.uniqueId))}>
+        <Button
+          size="small"
+          onClick={() => dispatch(removeFavorite(data.uniqueId))}
+        >
           <DeleteIcon />
         </Button>
       </CardActions>
