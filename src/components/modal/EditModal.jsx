@@ -7,22 +7,32 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
 const EditModal = ({ open, onClose, onSave, currentDescription }) => {
-  const { width, height, likes, date } = currentDescription;
+  const {
+    width,
+    height,
+    likes,
+    date,
+    description,
+  } = currentDescription;
 
-  const [descriptionWidth, setDescriptionWidth] = useState(width);
-  const [descriptionHeight, setDescriptionHeight] = useState(height);
-  const [descriptionLikes, setDescriptionLikes] = useState(likes);
-  const [descriptionDate, setDescriptionDate] = useState(date);
+  const [formData, setFormData] = useState({
+    description: description,
+    width: width,
+    height: height,
+    likes: likes,
+    date: date,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSave = () => {
-    const newDescription = {
-      width: descriptionWidth,
-      height: descriptionHeight,
-      likes: descriptionLikes,
-      date: descriptionDate,
-    };
-
-    onSave(newDescription);
+    onSave(formData);
     onClose();
   };
 
@@ -32,35 +42,48 @@ const EditModal = ({ open, onClose, onSave, currentDescription }) => {
       <DialogContent>
         <TextField
           sx={{ marginTop: "1em" }}
+          label="Title"
+          type="text"
+          fullWidth
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+        />
+        <TextField
+          sx={{ marginTop: "1em" }}
           label="width"
           type="number"
           fullWidth
-          value={descriptionWidth}
-          onChange={(e) => setDescriptionWidth(e.target.value)}
+          name="width"
+          value={formData.width}
+          onChange={handleChange}
         />
         <TextField
           sx={{ marginTop: "1em" }}
           label="height"
           type="number"
           fullWidth
-          value={descriptionHeight}
-          onChange={(e) => setDescriptionHeight(e.target.value)}
+          name="height"
+          value={formData.height}
+          onChange={handleChange}
         />
         <TextField
           sx={{ marginTop: "1em" }}
           label="likes"
           type="number"
           fullWidth
-          value={descriptionLikes}
-          onChange={(e) => setDescriptionLikes(e.target.value)}
+          name="likes"
+          value={formData.likes}
+          onChange={handleChange}
         />
         <TextField
           sx={{ marginTop: "1em" }}
           label="date"
           type="date"
           fullWidth
-          value={descriptionDate}
-          onChange={(e) => setDescriptionDate(e.target.value)}
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
         />
       </DialogContent>
       <DialogActions>

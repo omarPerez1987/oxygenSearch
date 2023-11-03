@@ -1,20 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPhotosThunk } from "../features/searchThunk";
+import { fetchPhotosThunk } from "../features/searchThunk/searchThunk.js";
 import {
   fetchPhotosData,
   fetchPhotosStatus,
   fetchPhotosError,
-} from "../features/searchSlice";
-import { addFavorite, favoritesData } from "../features/favouritesSlice";
-import { v4 as uuidv4 } from "uuid";
+} from "../features/searchSlice/searchSlice.js";
+import {
+  addFavorite,
+  favoritesData,
+} from "../features/favouriteSlice/favouritesSlice.js";
 import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import "./pageSearch.css";
 import Logo from "../components/logo/Logo.jsx";
 import Searcher from "../components/searcher/Searcher";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const PageSearch = () => {
   const dispatch = useDispatch();
@@ -23,16 +25,24 @@ const PageSearch = () => {
   const status = useSelector(fetchPhotosStatus);
   const error = useSelector(fetchPhotosError);
 
+
   useEffect(() => {
-    dispatch(fetchPhotosThunk(""));
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchPhotosThunk(""));
+      } catch (err) {
+        toast.error("Error no se pueden mostrar las fotos", err);
+      }
+    };
+
+    fetchData();
   }, [dispatch]);
 
   const addToMyPhotos = (item) => {
     const shortData = {
       id: item.id,
-      uniqueId: uuidv4(),
       description: item.description
-        ? item.description.slice(0, 16)
+        ? item.description.slice(0, 20)
         : "No title",
       smallImage: item.urls.small,
       height: item.height,
@@ -41,12 +51,22 @@ const PageSearch = () => {
       date: item.created_at,
       fullImage: item.urls.full,
     };
-    dispatch(addFavorite(shortData));
-    toast.success("Foto añadida con exito");
-    localStorage.setItem(
-      "favoritePhotos",
-      JSON.stringify([...favoritePhotos, shortData])
+
+    const isAlreadyInFavorites = favoritePhotos.some(
+      (favorite) => favorite.id === shortData.id
     );
+
+    if (isAlreadyInFavorites) {
+      toast.warning("Esta foto ya está en tus favoritos");
+    } else {
+      shortData.isFavorite = true;
+      dispatch(addFavorite(shortData));
+      toast.success("Foto añadida con éxito");
+      localStorage.setItem(
+        "favoritePhotos",
+        JSON.stringify([...favoritePhotos, shortData])
+      );
+    }
   };
 
   return (
@@ -89,7 +109,11 @@ const PageSearch = () => {
                 alt={item.alt_description}
               />
               <FavoriteIcon
-                className="favoriteIcon"
+                className={`favoriteIcon ${
+                  favoritePhotos.some((photo) => photo.id === item.id)
+                    ? "favoriteIconColorRed"
+                    : ""
+                }`}
                 onClick={() => addToMyPhotos(item)}
               />
             </div>

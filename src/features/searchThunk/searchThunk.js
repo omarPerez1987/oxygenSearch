@@ -7,10 +7,11 @@ export const fetchPhotosThunk = createAsyncThunk(
     let apiUrl;
 
     if (searchQuery === "") {
-      apiUrl = `https://api.unsplash.com/search/photos?query=random&client_id=${apiKey}`;
+      apiUrl = `https://api.unsplash.com/photos/random?client_id=${apiKey}&count=10`;
     } else {
       apiUrl = `https://api.unsplash.com/search/photos?query=${searchQuery}&client_id=${apiKey}`;
     }
+
     try {
       const response = await fetch(apiUrl);
       if (!response.ok) {
@@ -19,7 +20,11 @@ export const fetchPhotosThunk = createAsyncThunk(
 
       const data = await response.json();
 
-      return data.results;
+      if (apiUrl === `https://api.unsplash.com/photos/random?client_id=${apiKey}&count=10`) {
+        return data;
+      } else {
+        return data.results;
+      }
     } catch (error) {
       throw new Error("No se pudieron cargar las fotos.");
     }

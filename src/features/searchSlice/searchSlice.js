@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {fetchPhotosThunk} from './searchThunk.js'
+import {fetchPhotosThunk} from '../searchThunk/searchThunk.js'
 
 const searchSlice = createSlice({
   name: 'search',
@@ -22,7 +22,7 @@ const searchSlice = createSlice({
         state.status = 'rejected';
         state.error = action.error.message;
       });
-  },
+    },
 });
 
 export const fetchPhotosData = (state) => state.search.photos;

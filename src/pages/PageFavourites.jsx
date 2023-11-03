@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addFavorite, favoritesData } from "../features/favouritesSlice";
+import {
+  addFavorite,
+  favoritesData,
+} from "../features/favouriteSlice/favouritesSlice.js";
 
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -102,7 +105,7 @@ const PageFavourites = () => {
                 .toLowerCase()
                 .includes(searchQuery.toLowerCase())
             )
-            .map((data) => <CardFavourite data={data} key={data.uniqueId} />)
+            .map((data) => <CardFavourite data={data} key={data.id} />)
         ) : favoritePhotos.length > 0 ? (
           favoritePhotos
             .filter((photo) =>
@@ -110,7 +113,7 @@ const PageFavourites = () => {
                 .toLowerCase()
                 .includes(searchQuery.toLowerCase())
             )
-            .map((data) => <CardFavourite data={data} key={data.uniqueId} />)
+            .map((data) => <CardFavourite data={data} key={data.id} />)
         ) : (
           <h1>No has guardado ninguna foto</h1>
         )}

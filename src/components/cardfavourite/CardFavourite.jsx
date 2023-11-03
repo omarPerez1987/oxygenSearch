@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import {
   removeFavorite,
   updateDescription,
-} from "../../features/favouritesSlice";
+} from "../../features/favouriteSlice/favouritesSlice.js";
 import EditModal from "../modal/EditModal";
 
 import "./cardFavourite.css";
@@ -101,7 +101,7 @@ const CardFavourite = ({ data }) => {
         </Button>
         <Button
           size="small"
-          onClick={() => dispatch(removeFavorite(data.uniqueId))}
+          onClick={() => dispatch(removeFavorite(data.id))}
         >
           <DeleteIcon />
         </Button>
