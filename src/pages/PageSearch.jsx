@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPhotosThunk } from "../features/searchThunk/searchThunk.js";
 import {
@@ -25,18 +25,11 @@ const PageSearch = () => {
   const status = useSelector(fetchPhotosStatus);
   const error = useSelector(fetchPhotosError);
 
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await dispatch(fetchPhotosThunk(""));
-      } catch (err) {
-        toast.error("Error no se pueden mostrar las fotos", err);
-      }
-    };
-
-    fetchData();
-  }, [dispatch]);
+    if (photos <= 0) {
+      dispatch(fetchPhotosThunk(""));
+    }
+  }, []);
 
   const addToMyPhotos = (item) => {
     const shortData = {
