@@ -34,9 +34,10 @@ const PageSearch = () => {
   const addToMyPhotos = (item) => {
     const shortData = {
       id: item.id,
-      description: item.description
-        ? item.description.slice(0, 20)
-        : "No title",
+      description:
+        item.alt_description
+          ? item.alt_description
+          : "No description",
       smallImage: item.urls.small,
       height: item.height,
       width: item.width,

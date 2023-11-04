@@ -101,7 +101,10 @@ const CardFavourite = ({ data }) => {
         </Button>
         <Button
           size="small"
-          onClick={() => dispatch(removeFavorite(data.id))}
+          onClick={() => {
+            dispatch(removeFavorite(data.id))
+            toast.error('foto eliminada con éxito')
+          }}
         >
           <DeleteIcon />
         </Button>

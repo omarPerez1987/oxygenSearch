@@ -5,6 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { toast } from "react-toastify";
 
 const EditModal = ({ open, onClose, onSave, currentDescription }) => {
   const {
@@ -33,6 +34,7 @@ const EditModal = ({ open, onClose, onSave, currentDescription }) => {
 
   const handleSave = () => {
     onSave(formData);
+    toast.success('Editado con éxito')
     onClose();
   };
 
