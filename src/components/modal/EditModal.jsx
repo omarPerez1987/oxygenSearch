@@ -12,17 +12,17 @@ const EditModal = ({ open, onClose, onSave, currentDescription }) => {
     height,
     likes,
     date,
-    description,
+    title,
   } = currentDescription;
-
+  
   const [formData, setFormData] = useState({
-    description: description,
+    title: title,
     width: width,
     height: height,
     likes: likes,
     date: date,
   });
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -45,8 +45,8 @@ const EditModal = ({ open, onClose, onSave, currentDescription }) => {
           label="Title"
           type="text"
           fullWidth
-          name="description"
-          value={formData.description}
+          name="title"
+          value={formData.title}
           onChange={handleChange}
         />
         <TextField

@@ -18,7 +18,7 @@ const favoritesSlice = createSlice({
         const updatedData = { ...state[index] };
 
         if (action.payload.newDescription.width) {
-          updatedData.description = action.payload.newDescription.description;
+          updatedData.description = action.payload.newDescription.title;
         }
         if (action.payload.newDescription.width) {
           updatedData.width = action.payload.newDescription.width;

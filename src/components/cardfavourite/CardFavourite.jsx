@@ -74,7 +74,7 @@ const CardFavourite = ({ data }) => {
       <CardMedia sx={{ height: 324 }} image={data.smallImage} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {data.description}
+          {currentDescription.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           width: {currentDescription.width}px
