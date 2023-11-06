@@ -24,20 +24,30 @@ const PageSearch = () => {
   const photos = useSelector(fetchPhotosData);
   const status = useSelector(fetchPhotosStatus);
   const error = useSelector(fetchPhotosError);
+  const [state, setState] = useState("idle");
 
   useEffect(() => {
-    if (photos <= 0) {
-      dispatch(fetchPhotosThunk(""));
+    if (!error && photos.length === 0) {
+      dispatch(fetchPhotosThunk("")).catch((error) => {
+        console.error("Error en la llamada: ", error);
+      });
     }
-  }, []);
+
+    if (status === "idle") {
+      setState("idle");
+    } else if (status === "pending") {
+      setState("pending");
+    } else if (status === "fulfilled") {
+      setState("fulfilled");
+    }
+  }, [status]);
 
   const addToMyPhotos = (item) => {
     const shortData = {
       id: item.id,
-      description:
-        item.alt_description
-          ? item.alt_description
-          : "No description",
+      description: item.alt_description
+        ? item.alt_description
+        : "No description",
       smallImage: item.urls.small,
       height: item.height,
       width: item.width,
@@ -89,8 +99,9 @@ const PageSearch = () => {
       </nav>
 
       <section className="list">
-        {status === "pending" && <h1>Loading...</h1>}
-        {status === "fulfilled" &&
+        {state === "idle" && !error && <h1>Iniciando...</h1>}
+        {state === "pending" && !error && <h1>Loading...</h1>}
+        {state === "fulfilled" &&
           photos.map((item) => (
             <div
               key={item.id}
@@ -112,7 +123,7 @@ const PageSearch = () => {
               />
             </div>
           ))}
-        {status === "rejected" && <h2>Error: {error}</h2>}
+        {error && <h2>Error: {error}</h2>}
       </section>
     </>
   );
