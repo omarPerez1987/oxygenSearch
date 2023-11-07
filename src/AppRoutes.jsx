@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     element: <PageSearch />,
   },
   {
-    path: "my-photos",
+    path: "/my-photos",
     element: <PageFavourites />,
   },
 ]);
