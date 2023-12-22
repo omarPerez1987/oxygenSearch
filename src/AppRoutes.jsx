@@ -1,9 +1,9 @@
 import React from "react";
-import { createBrowserRouter, createHashRouter, RouterProvider } from "react-router-dom";
+import {createBrowserRouter, RouterProvider } from "react-router-dom";
 import PageSearch from "./pages/PageSearch";
 import PageFavourites from "./pages/PageFavourites";
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <PageSearch />,
