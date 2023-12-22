@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/omarPerez1987/oxygenSearch",
+  "homepage": "http://omardev-oxygensearch.s3-website.eu-north-1.amazonaws.com/",
 
   "scripts": {
     "dev": "vite",
