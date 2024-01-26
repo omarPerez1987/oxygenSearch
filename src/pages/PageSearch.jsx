@@ -9,6 +9,7 @@ import {
 import {
   addFavorite,
   favoritesData,
+  removeFavorite,
 } from "../features/favouriteSlice/favouritesSlice.js";
 import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
@@ -61,7 +62,14 @@ const PageSearch = () => {
     );
 
     if (isAlreadyInFavorites) {
-      toast.warning("Esta foto ya está en tus favoritos");
+      dispatch(removeFavorite(shortData.id));
+      localStorage.setItem(
+        "favoritePhotos",
+        JSON.stringify(
+          favoritePhotos.filter((photo) => photo.id !== shortData.id)
+        )
+      );
+      toast.error("foto eliminada de tus favoritos");
     } else {
       shortData.isFavorite = true;
       dispatch(addFavorite(shortData));
