@@ -14,6 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import "./pageSearch.css";
 import Logo from "../components/logo/Logo.jsx";
 import Searcher from "../components/searcher/Searcher";
@@ -86,23 +87,17 @@ const PageSearch = () => {
       <nav className="navSearch">
         <div className="navSearch__container">
           <Logo />
-
-          <Link to="/my-photos" className="nav__my-photos">
-            <PersonIcon
-              sx={{ color: "white", fontSize: "2em", position: "relative" }}
-            />
-            <FavoriteIcon
-              sx={{
-                color: "white",
-                fontSize: "1em",
-                position: "absolute",
-                marginLeft: "-0.5em",
-              }}
-            />
-          </Link>
         </div>
         <div className="navSearch__search">
           <Searcher placeholder={"Search..."} />
+        </div>
+        <div className="navSearch__favorite">
+          <Link to="/my-photos">
+            <div className="container_favorite">
+              <ThumbUpOutlinedIcon sx={{ color: "white", fontSize: "2em" }} />
+              <p className="text_favorites">Favorites</p>
+            </div>
+          </Link>
         </div>
       </nav>
 

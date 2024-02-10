@@ -1,11 +1,12 @@
 import React from "react";
 import './logo.css'
 import { Link } from "react-router-dom";
+import logo from '../../img/O2oxy.png'
 
 const Logo = () => {
   return (
-    <Link to="/" className="logo">
-      OXYGENSearch
+    <Link to="/" className="container_logo">
+      <img className="logo" src={logo} alt="" />
     </Link>
   );
 };

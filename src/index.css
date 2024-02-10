@@ -9,5 +9,10 @@ body {
 }
 
 a {
-  color: bisque;
+  color: white;
+  text-decoration:none;
+}
+
+nav {
+  box-sizing: border-box;
 }
