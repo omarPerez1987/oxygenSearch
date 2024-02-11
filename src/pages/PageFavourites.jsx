@@ -31,20 +31,21 @@ const PageFavourites = () => {
       dispatch(addFavorite(localFavorites));
     }
   }, [dispatch]);
+  
 
   const handleSort = (sortBy) => {
     if (sortBy === "likes") {
       const sorted = [...favoritePhotos].sort((a, b) => b.likes - a.likes);
       setSortedPhotos(sorted);
     } else if (sortBy === "width") {
-      const sorted = [...favoritePhotos].sort((a, b) => a.width - b.width);
+      const sorted = [...favoritePhotos].sort((a, b) => b.width - a.width);
       setSortedPhotos(sorted);
     } else if (sortBy === "height") {
-      const sorted = [...favoritePhotos].sort((a, b) => a.height - b.height);
+      const sorted = [...favoritePhotos].sort((a, b) => b.height - a.height);
       setSortedPhotos(sorted);
     } else if (sortBy === "date") {
       const sorted = [...favoritePhotos].sort(
-        (a, b) => new Date(a.date) - new Date(b.date)
+        (a, b) => new Date(b.date) - new Date(a.date)
       );
       setSortedPhotos(sorted);
     }
@@ -60,7 +61,25 @@ const PageFavourites = () => {
       <nav className="navFavourites">
         <div className="navFavourites__container">
           <Logo />
+        </div>
 
+        <div className="navFavourites__search">
+          <Input
+            placeholder="Search descriptions..."
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            sx={{
+              backgroundColor: "white",
+              width: "100%",
+              height: "2em",
+              borderRadius: "0.5em",
+              padding: "0.5em 0.8em",
+            }}
+          />
+          <SearchIcon sx={{ color: "white" }}></SearchIcon>
+        </div>
+        <div>
           <FormControl
             className="navFavourites__container__order"
             sx={{ minWidth: 160, backgroundColor: "white" }}
@@ -78,22 +97,6 @@ const PageFavourites = () => {
               <MenuItem value="date">date</MenuItem>
             </Select>
           </FormControl>
-        </div>
-        <div className="navFavourites__search">
-          <Input
-            placeholder="Search descriptions..."
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            sx={{
-              backgroundColor: "white",
-              width: "100%",
-              height: "2em",
-              borderRadius: "0.5em",
-              padding: "0.5em 0.8em",
-            }}
-          />
-          <SearchIcon sx={{ color: "white" }}></SearchIcon>
         </div>
       </nav>
 

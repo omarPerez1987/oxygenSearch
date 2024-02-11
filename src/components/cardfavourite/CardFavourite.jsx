@@ -86,7 +86,7 @@ const CardFavourite = ({ data }) => {
           likes : {currentDescription.likes}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          date added: {currentDescription.date.slice(0, 10)}
+          date added: {currentDescription.date.slice(0, 10).split("-").reverse().join("-")}
         </Typography>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
