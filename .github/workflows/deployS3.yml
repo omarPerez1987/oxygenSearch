@@ -27,7 +27,7 @@ jobs:
       - name: Set Environment Variables
         run: |
           echo "Setting environment variables"
-          export VITE_API_KEY=${{ secrets.VITE_API_KEY }}
+          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> $GITHUB_ENV
       
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
