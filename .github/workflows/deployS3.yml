@@ -24,12 +24,15 @@ jobs:
       - name: Build project
         run: npm run build
       
+      - name: Environment:
+          variables:
+            VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+      
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --delete
         env:
-          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
