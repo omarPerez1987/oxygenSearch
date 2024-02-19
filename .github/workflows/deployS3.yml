@@ -24,9 +24,10 @@ jobs:
       - name: Build project
         run: npm run build
       
-      - name: Environment
-          variables:
-            VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+      - name: Set Environment Variables
+        run: |
+          echo "Setting environment variables"
+          export VITE_API_KEY=${{ secrets.VITE_API_KEY }}
       
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
