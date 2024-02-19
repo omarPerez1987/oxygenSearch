@@ -34,4 +34,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'eu-west-3'
           SOURCE_DIR: 'dist'
+
           
