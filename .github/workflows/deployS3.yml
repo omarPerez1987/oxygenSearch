@@ -24,7 +24,7 @@ jobs:
       - name: Build project
         run: npm run build
       
-      - name: Environment:
+      - name: Environment
           variables:
             VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
       
