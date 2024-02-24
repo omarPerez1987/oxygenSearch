@@ -77,19 +77,25 @@ const CardFavourite = ({ data }) => {
           {currentDescription.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          width: {currentDescription.width}px
+          <strong>width :</strong> {currentDescription.width}px
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          height: {currentDescription.height}px
+          <strong>height :</strong> {currentDescription.height}px
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          likes : {currentDescription.likes}
+          <strong>likes :</strong> {currentDescription.likes}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          date added: {currentDescription.date.slice(0, 10).split("-").reverse().join("-")}
+          <strong>date added: </strong>
+          {currentDescription.date.slice(0, 10).split("-").reverse().join("-")}
         </Typography>
       </CardContent>
-      <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
+      <CardActions
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
         <Button size="small" onClick={() => setEditModal(true)}>
           <EditIcon />
         </Button>
@@ -102,21 +108,19 @@ const CardFavourite = ({ data }) => {
         <Button
           size="small"
           onClick={() => {
-            dispatch(removeFavorite(data.id))
-            toast.error('foto eliminada con éxito')
+            dispatch(removeFavorite(data.id));
+            toast.error("foto eliminada con éxito");
           }}
         >
           <DeleteIcon />
         </Button>
-      </CardActions>
-      {editModal && (
         <EditModal
           open={editModal}
           onClose={closeModal}
           onSave={saveEditedDescription}
           currentDescription={currentDescription}
         />
-      )}
+      </CardActions>
     </Card>
   );
 };
